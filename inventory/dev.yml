@@ -1,0 +1,12 @@
+[nfs]
+172.31.38.230 ansible_ssh_user='ec2-user' ansible_ssh_private_key_file=/home/ubuntu/ansible-config-mgt/vmkey.pem
+
+[webservers]
+172.31.38.87 ansible_ssh_user='ec2-user' ansible_ssh_private_key_file=/home/ubuntu/ansible-config-mgt/vmkey.pem
+172.31.39.145 ansible_ssh_user='ec2-user' ansible_ssh_private_key_file=/home/ubuntu/ansible-config-mgt/vmkey.pem
+
+[db]
+172.31.36.104 ansible_ssh_user='ubuntu' ansible_ssh_private_key_file=/home/ubuntu/ansible-config-mgt/vmkey.pem
+
+[lb]
+172.31.46.155 ansible_ssh_user='ubuntu' ansible_ssh_private_key_file=/home/ubuntu/ansible-config-mgt/vmkey.pem
