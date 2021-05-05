@@ -9,4 +9,4 @@
 172.31.36.104 ansible_ssh_user='ubuntu' ansible_ssh_private_key_file=/home/ubuntu/ansible-config-mgt/vmkey.pem
 
 [lb]
-172.31.46.155 ansible_ssh_user='ubuntu' ansible_ssh_private_key_file=/home/ubuntu/ansible-config-mgt/vmkey.pem
+3.23.151.92 ansible_ssh_user='ubuntu' ansible_ssh_private_key_file=/home/ubuntu/ansible-config-mgt/vmkey.pem
