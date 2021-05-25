@@ -1,45 +1,27 @@
 pipeline {
-    agent any
+  agent any
+  parameters {
+      string(name: 'inventory', defaultValue: 'dev',  description: 'This is the inventory file for the environment to deploy configurations')
+      string(name: 'tag', defaultValue: 'all',  description: 'Tags to run ansible playbook against environments')
+    }
+  environment {
+        current_space = 'dev'
+        cpath = '/var/lib/jenkins/workspace/ansible-config-mgt_'+"${current_space}"+'/roles'
+    }
 
-
-  stages {
-    stage('Build') {
-      steps {
-        script {
-          sh 'echo "Building Stage"'
+ stages {
+    stage('Clone Repo') {
+      parallel {
+        stage('Clone Repo') {
+          steps {
+            git branch: current_space, url: 'https://github.com/dipoesan/ansible-config-mgt.git'
+          }
+        }
+    
+    stage('Update the ansible.cfg file ') {
+          steps {
+            sh ('sudo sed -i -e "/roles_path = \\/[a-z]*\\/*/a\\roles_path = $cpath" -e "/roles_path = \\/[a-z]*\\/*/d" /etc/ansible/ansible.cfg')
+          }
         }
       }
     }
-
-    stage('Test') {
-      steps {
-        script {
-          sh 'echo "Testing Stage"'
-        }
-      }
-    }
-    stage('Package') {
-      steps {
-        script {
-          sh 'echo "Packaging Stage"'
-        }  
-      }
-    }  
-
-    stage('Deploy') {
-      steps {
-        script {
-          sh 'echo "Deploying Stage"'
-        }  
-      }
-    }  
-
-    stage('Clean Up') {
-      steps {
-        script {
-          sh 'echo "Cleaning Up Stage"'
-        }  
-      }
-    }  
-    }
-}
