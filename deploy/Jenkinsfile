@@ -15,7 +15,7 @@ pipeline
       parallel {
         stage('Clone Repo') {
           steps {
-            git branch: current_space, url: 'https://github.com/dipoesan/ansible-config-mgt.git'
+            git branch: current_space, url: 'https://github.com/dipoesan/ansible-config-mgt'
           }
         }
     
