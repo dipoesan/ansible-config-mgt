@@ -1,20 +1,24 @@
-pipeline 
-{
+pipeline {
   agent any
-  parameters {
-      string(name: 'inventory', defaultValue: 'dev',  description: 'This is the inventory file for the environment to deploy configurations')
-      string(name: 'tag', defaultValue: 'all',  description: 'Tags to run ansible playbook against environments')
-    }
   environment {
-        current_space = 'dev'
-        cpath = '/var/lib/jenkins/workspace/ansible-config-mgt_'+"${current_space}"+'/roles'
+        ANSIBLE_CONFIG = "${WORKSPACE}/deploy/ansible.cfg"
     }
 
+  parameters {
+      string(name: 'inventory', defaultValue: 'dev',  description: 'This is the inventory file for the environment to deploy configurations')
+    }
+  
  stages {
-      parallel {
         stage('Clone Repo') {
           steps {
-            git branch: current_space, url: 'https://github.com/dipoesan/ansible-config-mgt'
+            git branch: 'main', url: 'https://github.com/dipoesan/ansible-config-mgt.git'
+          }
+        }
+
+        stage('Prepare Ansible For Execution') {
+          steps {
+            sh 'echo ${WORKSPACE}'
+            sh 'sed -i \'s/roles_path = \\/var\\/lib\\/jenkins\\/workspace/roles_path = \\/var\\/lib\\/jenkins\\/workspace\\/ansible-project-14_main\\/roles /g\' deploy/ansible.cfg'
           }
         }
     
@@ -26,9 +30,9 @@ pipeline
 
         stage('Clean up') {
           steps {
-        cleanWs cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true, deleteDirs: true
+            cleanWs cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true, deleteDirs: true
           }
         }
-      } 
+     
   }
 }
