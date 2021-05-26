@@ -1,16 +1,34 @@
 ---
-- name: Include dynamic variables 
+- name: Include dynamic variables
+  gather_facts: no # due to python interpreter /usr/bin/python absent
   hosts: all
-  tasks:
-    - import_playbook: ../static-assignments/common.yml 
-    - include_playbook: ../dynamic-assignments/env-vars.yml
+
+- name: import the common playbook
+  import_playbook: ../static-assignments/common.yml
   tags:
-    - always
+    - run
 
-- name: Webserver assignment
-  hosts: webservers
-- import_playbook: ../static-assignments/webservers.yml
+- name: include the env-vars playbook
+  import_playbook: ../dynamic-assignments/env-vars.yml
+  tags:
+    - skip
 
-- name: Loadbalancers assignment
-  hosts: lb
-- import_playbook: ../static-assignments/loadbalancers.yml
+
+
+
+
+# - name: Include dynamic variables 
+#  hosts: all
+#  tasks:
+#    - import_playbook: ../static-assignments/common.yml 
+#    - include_playbook: ../dynamic-assignments/env-vars.yml
+#  tags:
+#    - always
+
+# - name: Webserver assignment
+#  hosts: webservers
+# - import_playbook: ../static-assignments/webservers.yml
+
+# - name: Loadbalancers assignment
+#  hosts: lb
+# - import_playbook: ../static-assignments/loadbalancers.yml
