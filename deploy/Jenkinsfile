@@ -23,7 +23,7 @@ pipeline {
     
         stage('Run playbook') {
           steps {
-            ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory/${params.inventory_file}', playbook: 'playbooks/site.yml'            }
+            ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory/${params.inventory}', playbook: 'playbooks/site.yml'            }
         }
 
         stage('Clean up') {
